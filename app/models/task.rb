@@ -1,2 +1,2 @@
-class Task < ApplecationRecord
+class Task < ApplicationRecord
 end
