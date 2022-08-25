@@ -1,0 +1,2 @@
+class Task < ApplecationRecord
+end
