@@ -24,6 +24,7 @@ class Task < ApplicationRecord
     def slug_not_changed
       if slug_changed? && self.persisted?
         errors.add(:slug, t("task.slug.immutable"))
+        puts "hello"
       end
     end
 end
