@@ -20,7 +20,7 @@ const Create = ({ history }) => {
     try {
       await tasksApi.create({ title, assigned_user_id: userId });
       setLoading(false);
-      history.push("/dashboard");
+      history.push("/"); // todo
     } catch (error) {
       logger.error(error);
       setLoading(false);
