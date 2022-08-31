@@ -55,6 +55,7 @@ end
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "bcrypt", "~> 3.1.13"
+gem "pundit"
 gem "react-rails"
 gem "simplecov", require: false, group: :test
 
