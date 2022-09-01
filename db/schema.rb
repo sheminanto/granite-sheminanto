@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_01_062247) do
+ActiveRecord::Schema.define(version: 2022_09_01_173006) do
 
   create_table "comments", force: :cascade do |t|
     t.text "content"
@@ -22,6 +22,22 @@ ActiveRecord::Schema.define(version: 2022_09_01_062247) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["task_id"], name: "index_comments_on_task_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "logs", force: :cascade do |t|
+    t.integer "task_id"
+    t.text "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "preferences", force: :cascade do |t|
+    t.integer "notification_delivery_hour"
+    t.boolean "receive_email", default: true, null: false
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_preferences_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -36,6 +52,16 @@ ActiveRecord::Schema.define(version: 2022_09_01_062247) do
     t.index ["slug"], name: "index_tasks_on_slug", unique: true
   end
 
+  create_table "user_notifications", force: :cascade do |t|
+    t.date "last_notification_sent_date", null: false
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "last_notification_sent_date"],
+      name: "index_user_preferences_on_user_id_and_notification_sent_date", unique: true
+    t.index ["user_id"], name: "index_user_notifications_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -48,6 +74,8 @@ ActiveRecord::Schema.define(version: 2022_09_01_062247) do
 
   add_foreign_key "comments", "tasks"
   add_foreign_key "comments", "users"
+  add_foreign_key "preferences", "users"
   add_foreign_key "tasks", "users", column: "assigned_user_id"
   add_foreign_key "tasks", "users", column: "task_owner_id", on_delete: :cascade
+  add_foreign_key "user_notifications", "users"
 end
