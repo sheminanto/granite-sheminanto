@@ -20,9 +20,20 @@ class TasksController < ApplicationController
     # respond_with_json(tasks_with_assigned_user)
 
     # @pending_tasks = tasks.pending.as_json(include: { assigned_user: { only: %i[name id] } })
-    @pending_tasks = tasks.pending.includes(:assigned_user)
+    # @pending_tasks = tasks.pending.includes(:assigned_user)
 
-    @completed_tasks = tasks.completed
+    # @completed_tasks = tasks.completed
+
+    # pending_starred = tasks.pending.starred.includes(:assigned_user).order('updated_at DESC')
+    # pending_unstarred = tasks.pending.unstarred.includes(:assigned_user).order('updated_at DESC')
+    # @pending_tasks = pending_starred + pending_unstarred
+
+    # completed_starred = tasks.completed.starred.order('updated_at DESC')
+    # completed_unstarred = tasks.completed.unstarred.order('updated_at DESC')
+    # @completed_tasks = completed_starred + completed_unstarred
+
+    @pending_tasks = tasks.includes(:assigned_user).of_status(:pending)
+    @completed_tasks = tasks.of_status(:completed)
   end
 
   def create
