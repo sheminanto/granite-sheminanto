@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  MAX_NAME_LENGTH = 255
   VALID_EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i.freeze
+  MAX_NAME_LENGTH = 255
   MAX_EMAIL_LENGTH = 255
 
   has_many :assigned_tasks, foreign_key: :assigned_user_id, class_name: "Task"
   has_many :created_tasks, foreign_key: :task_owner_id, class_name: "Task"
   has_many :comments, dependent: :destroy
-
-  has_secure_password
-  has_secure_token :authentication_token
 
   validates :name, presence: true, length: { maximum: 35 }
   validates :email, presence: true,
@@ -22,6 +19,9 @@ class User < ApplicationRecord
 
   before_save :to_lowercase
   before_destroy :assign_tasks_to_task_owners
+
+  has_secure_password
+  has_secure_token :authentication_token
 
   private
 
