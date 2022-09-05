@@ -67,6 +67,11 @@ gem "letter_opener", group: :development
 
 gem "pg", group: [:production]
 
+# PDF generation gem
+gem "wicked_pdf"
+# wicked_pdf uses the following binary
+gem "wkhtmltopdf-binary"
+
 group :development, :test do
   # Rails integration for factory_bot, a replacement for fixtures
   gem "factory_bot_rails"
